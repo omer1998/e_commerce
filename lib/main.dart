@@ -1,3 +1,5 @@
+import 'package:e_commerce/utilities/appRoutes.dart';
+import 'package:e_commerce/utilities/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(body: Container(),)
+      onGenerateRoute: onGenerate,
+      initialRoute: AppRoutes.authPage,
     );
   }
 }
