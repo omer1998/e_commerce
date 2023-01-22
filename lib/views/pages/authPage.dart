@@ -9,11 +9,14 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false, // this make the keyboard float in order to not take space of screen 
           body: Form(
+            key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 30),
           child: Column(
@@ -26,25 +29,48 @@ class _AuthPageState extends State<AuthPage> {
                     .headline3
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
-              TextFormField(),
+              const SizedBox(height: 33,),
+              TextFormField(
+                validator: (value) {
+                  if(value == null || value.isEmpty){
+                    return "Please this field is required";
+                  }else{
+                    return null;
+                  }
+                  // or in other way 
+                  //(value)=> value?.trim().isEmpty == true ? "This field is required" : null  null here mean the input is valid
+                },
+                decoration: const InputDecoration(label: Text("E-mail"))
+              ),
               const SizedBox(
                 height: 10,
               ),
-              TextFormField(),
+              TextFormField(
+                validator: (value)=> value?.trim().isEmpty == true ? "This field is required" : null,
+                decoration:  const InputDecoration( label: Text("Password"), hintText: "Enter your password")
+              ),
               const SizedBox(
-                height: 12,
+                height: 18,
               ),
               const Align(
                   alignment: Alignment.centerRight,
                   child: Text("Forget your password ?")),
               const SizedBox(
-                height: 12,
+                height: 18,
               ),
               // as we have the same button in multiple pages
               //it's good approach to create it as a custom widget that is applicable in multiole situation
+              
+              SizedBox(width: double.infinity,height: 50,
+                child: AuthButton(action: (){} , btnName: "Login")),
 
-              SizedBox(width: double.infinity,
-                child: AuthButton(action: () {}, btnName: "Login")),
+                const SizedBox(height: 18,),
+               Align(
+                alignment: Alignment.center,
+                 child: InkWell(child: const Text("Not having an account? Register", ),
+                             onTap: () {
+                             },),
+               ),
 
               // add spacer widget
               const Spacer(),

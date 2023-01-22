@@ -15,7 +15,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        
+        primaryColor: Colors.red,
+        scaffoldBackgroundColor: const Color(0xffE5E5E5),
+
+        inputDecorationTheme: InputDecorationTheme(
+          labelStyle: Theme.of(context).textTheme.subtitle1,
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.grey)),
+
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.grey)),
+          
+          //disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8)) // i think this activate if the 
+        )
       ),
       onGenerateRoute: onGenerate,
       initialRoute: AppRoutes.authPage,
