@@ -18,11 +18,14 @@ class ProductItem extends StatelessWidget {
             child: Stack(
               alignment: Alignment.topLeft,
               children: [
-                Image.network(
-                  AppAssets.productImageAsset,
-                  width: 200,
-                  height: 200,
-                  fit: BoxFit.cover
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    AppAssets.productImageAsset,
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.cover
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),

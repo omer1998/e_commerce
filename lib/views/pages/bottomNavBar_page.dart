@@ -1,9 +1,12 @@
+import 'package:e_commerce/controllers/auth_controller.dart';
+import 'package:e_commerce/services/auth_service.dart';
 import 'package:e_commerce/views/pages/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
