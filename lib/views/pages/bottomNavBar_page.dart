@@ -1,6 +1,7 @@
 import 'package:e_commerce/controllers/auth_controller.dart';
 import 'package:e_commerce/services/auth_service.dart';
 import 'package:e_commerce/views/pages/home_page.dart';
+import 'package:e_commerce/views/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -26,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           Container(),
           Container(),
           Container(),
-          Container(),
+          const Profile(),
         ];
     }
     

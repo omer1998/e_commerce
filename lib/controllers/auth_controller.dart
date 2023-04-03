@@ -57,4 +57,8 @@ Future<void> submit() async {
   
 }
 
+Future<void> logOut() async {
+  await auth.signOut();
+}
+
 }
