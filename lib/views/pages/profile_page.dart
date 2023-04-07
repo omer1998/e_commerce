@@ -1,4 +1,5 @@
 import 'package:e_commerce/controllers/auth_controller.dart';
+import 'package:e_commerce/controllers/firestore_controller_me.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -26,6 +27,7 @@ class Profile extends StatelessWidget {
                     // context.read<AuthController>().logOut();
                     // or in other way
                     Provider.of<AuthController>(context, listen: false).logOut();
+                    Provider.of<FirestoreController>(context, listen: false).deleteData("users/12345678");
 
                   },
                   style: ElevatedButton.styleFrom(

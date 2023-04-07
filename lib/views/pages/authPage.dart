@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/controllers/auth_controller.dart';
+import 'package:e_commerce/controllers/firestore_controller_me.dart';
 import 'package:e_commerce/utilities/appRoutes.dart';
 import 'package:e_commerce/utilities/authStatus.dart';
 import 'package:e_commerce/views/sharedWidgets/auth_btn_widget.dart';
@@ -20,14 +22,14 @@ class _AuthPageState extends State<AuthPage> {
   Future<void> submit(AuthController authController) async {
     try {
       await authController.submit();
+
       showSnckBar(context, "Success");
       if (!mounted) return;
-      Navigator.of(context).pushNamed(AppRoutes.bottomNavBarPage);
+      // Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
-showSnckBar(context, e.message.toString());    
-} catch (e) {
-  showSnckBar(context, e.toString());
-
+      showSnckBar(context, e.message.toString());
+    } catch (e) {
+      showSnckBar(context, e.toString());
     }
   }
 
@@ -132,6 +134,11 @@ showSnckBar(context, e.message.toString());
                             if (_formKey.currentState!.validate()) {
                               // showSnckBar(context, "valid");
                               submit(authController);
+                              Provider.of<FirestoreController>(context, listen:false).setData("users/12345678", {
+                                "name": "ahmed",
+                                "age": 20,
+                                "email": "123456789@gmail.com"
+                              });
                             }
                           },
                           btnName: authPage == AuthPageType.register
@@ -209,5 +216,29 @@ showSnckBar(context, e.message.toString());
         )),
       );
     }));
+  }
+
+  void addUserToDatabase() {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    //String id = context.read<AuthController>().currentUser!.uid.toString();
+    // String name = context.read<AuthController>().currentUser!.displayName;
+    // String email = context.read<AuthController>().currentUser!.email;
+    
+    // CollectionReference users = firestore.collection('users');
+    // users.doc("1234567").set({
+    //   "id": "1234567",
+    //   "name": "iiiii",
+    //   "email": "iiiii@gmail.ocm",
+    // }).then((value) => "print('user added')").catchError( (error) {
+    //   print("Failed to add user: $error");
+    // });
+
+    // or in other way
+    firestore.doc("users/1234567").set({
+      "id": "1234567",
+      "name": "iiiii",
+      "email": "test@test.com",
+    }).then((value) => "print('user added')").catchError( (error) {print("Failed to add user: $error");});
+
   }
 }

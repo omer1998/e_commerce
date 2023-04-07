@@ -1,3 +1,4 @@
+import 'package:e_commerce/controllers/firestore_controller_me.dart';
 import 'package:e_commerce/services/auth_service.dart';
 import 'package:e_commerce/utilities/appRoutes.dart';
 import 'package:e_commerce/utilities/router.dart';
@@ -12,15 +13,16 @@ void main() async {
   WidgetsFlutterBinding();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   runApp(MultiProvider(providers: [
     Provider<MyFirebaseAuth>(
       create: (context) => MyFirebaseAuth(),
     ),
     ChangeNotifierProvider<AuthController>(
-      create: (context) => AuthController(auth: Provider.of<MyFirebaseAuth>(context, listen: false)),
+      create: (context) => AuthController(
+          auth: Provider.of<MyFirebaseAuth>(context, listen: false)),
     ),
-    
+    Provider<FirestoreController>(create: (context) => FirestoreController())
   ], child: const MyApp()));
 }
 

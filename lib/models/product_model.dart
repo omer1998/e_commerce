@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:e_commerce/utilities/assets.dart';
 
 class Product {
@@ -18,6 +21,35 @@ class Product {
     this.discountValue,
     this.rate,
   });
+  
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'price': price,
+      'imgUrl': imgUrl,
+      'category': category,
+      'discountValue': discountValue,
+      'rate': rate,
+    };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map['id'] as String,
+      title: map['title'] as String,
+      price: map['price'] as int,
+      imgUrl: map['imgUrl'] as String,
+      category: map['category'] as String,
+      discountValue: map['discountValue'] != null ? map['discountValue'] as int : null,
+      rate: map['rate'] != null ? map['rate'] as double : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Product.fromJson(String source) => Product.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 List<Product> dummyProductList = [

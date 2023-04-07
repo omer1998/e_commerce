@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/controllers/auth_controller.dart';
+import 'package:e_commerce/models/test_product_model.dart';
 import 'package:e_commerce/services/auth_service.dart';
 import 'package:e_commerce/views/pages/home_page.dart';
 import 'package:e_commerce/views/pages/profile_page.dart';
@@ -8,6 +10,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+
+import '../../controllers/firestore_controller_me.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -22,10 +26,54 @@ class _BottomNavBarState extends State<BottomNavBar> {
   final PersistentTabController  _persistentTabController = PersistentTabController(initialIndex: 0);
   
   List<Widget> _buildScreens() {
-        return [
+        return [ 
+          //1
           HomePage(),
-          Container(),
-          Container(),
+          //2
+          StreamBuilder(
+            stream: Provider.of<FirestoreController>(context).documentStream(docPath: 'products/12345678', builder: TestProduct.fromJson),
+            builder: (context,snapshot) {
+              if(snapshot.hasError){
+                return Container(
+                  child: Text(snapshot.error.toString()),
+                );
+              }
+              if(snapshot.hasData){
+                final data = snapshot.data! as TestProduct;
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(data.name.toString()),
+                      Text(data.id.toString()),
+                    ],
+                  ),
+                );
+              }else{
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              
+            }
+          ),
+          //3
+          StreamBuilder(
+            stream: Provider.of<FirestoreController>(context).collectionStream(collectionPath: "products/", builder:((data, docId) => TestProduct.fromJson(data,docId)) ),
+            builder:(context, snapshot) {
+              if(snapshot.hasData){
+                return Center(
+                  child: ListView(
+                    children: snapshot.data!
+                    .map((product) => ListTile(title: Text(product.name), subtitle: Text(product.id))).toList()
+                  )
+                );
+              }
+              else{
+                return Center(child: CircularProgressIndicator(),);
+              }
+            }
+            ),
           Container(),
           const Profile(),
         ];

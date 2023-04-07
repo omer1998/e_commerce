@@ -2,10 +2,11 @@
 
 import 'package:e_commerce/services/auth_service.dart';
 import 'package:e_commerce/utilities/authStatus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthController with ChangeNotifier{
-  final AuthBase auth;
+  final MyFirebaseAuth auth;
   String email;
   String password;
   AuthPageType authPageType;
@@ -60,5 +61,9 @@ Future<void> submit() async {
 Future<void> logOut() async {
   await auth.signOut();
 }
+
+User? currentUser(){
+  return auth.currentUser;
+} 
 
 }
