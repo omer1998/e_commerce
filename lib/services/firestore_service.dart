@@ -1,8 +1,5 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../models/product_model.dart';
 
 class MyFirestore {
   MyFirestore._singlton();
@@ -17,30 +14,42 @@ class MyFirestore {
   }
 
   Future<void> deleteData(String path) async {
-    // the path here is to specific document, to delet it
+    // the path here is to specific document, to delete it
     return _firestore.doc(path).delete();
   }
 
+// this function responsible of returning stream of collection inside a document ??
   Stream<T> documentStream<T>(String docPath,
-      T Function(Map<String, dynamic> data, String documentId) builder) {
+      T Function(Map<String, dynamic> data, String documentId) fromMap) {
     final refernece = _firestore.doc(docPath);
     final data = refernece
         .snapshots()
-        .map((snapshot) => builder(snapshot.data()!, snapshot.id));
+        .map((snapshot) => fromMap(snapshot.data()!, snapshot.id));
     return data;
   }
 
-
+// to return stream of docs inside collections
   Stream<List<T>> collectionStream<T>(
-    String collecPath,
-    T Function(Map<String, dynamic> data, String docId) builder
-  ){
-      final collectionReference = _firestore.collection(collecPath);
-      final data = collectionReference.snapshots().map((snapshot) => snapshot.docs.map((doc) => builder(doc.data(), doc.id)).toList());
-      return data;
+      {required String collecPath,
+      required T Function(Map<String, dynamic> data, String docId) fromMap,
+      Query Function(Query query)? query,
+      Function(T left, T right)? sort}) {
+    Query collectionReference = _firestore.collection(collecPath);
+
+    // final data = collectionReference.snapshots().map((snapshot) =>
+    //     snapshot.docs.map((doc) => fromMap(doc.data(), doc.id)).toList());
+    if (query != null) {
+      collectionReference = query(collectionReference);
+    }
+    var resultData = collectionReference.snapshots().map((snapshot) => snapshot.docs  //this a snapshot of this collection which contain docs
+        .map((document) => fromMap(document.data() as Map<String, dynamic>  , document.id))   // now wen need to map each document's data which is the product into its model
+        .toList());
+
+        if(sort != null){
+        }
+    return resultData;
   }
-      
-  } 
+} 
 
   
 //   static final MyFirestore _instance = MyFirestore._internal();

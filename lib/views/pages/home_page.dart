@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product_model.dart';
 import 'package:e_commerce/utilities/assets.dart';
 import 'package:e_commerce/views/sharedWidgets/product_item_widget.dart';
@@ -6,10 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  
 _buildHeader({
   required BuildContext context,
   required String title,
@@ -35,6 +39,9 @@ _buildHeader({
   @override
   Widget build(BuildContext context) {
     final homeSize = MediaQuery.of(context).size;
+    final firestoreDatabase = Provider.of<FirestoreDatabase>(context);
+
+
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -73,15 +80,42 @@ _buildHeader({
             ),
             SizedBox(
                height: 300,
-              child: ListView.builder(
-                // padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: dummyProductList.length,
-                itemBuilder: (context, index) {
-                  return ProductItem(
-                    product: dummyProductList[index],
+              child: StreamBuilder(
+                stream: firestoreDatabase.saleProductStream(), //FirebaseFirestore.instance.collection("products/").snapshots(),
+                builder: (context, snapshot) {
+                  print("start product stream");
+                  if( snapshot.connectionState == ConnectionState.active){
+                    // print(Product.fromMap(snapshot.data!.docs[0].data(), snapshot.data!.docs[0].data()["id"]));
+                    print(snapshot.hasData);
+                    print(snapshot.data);
+                    // return Center(child: Text("data is here"),);
+                    if (snapshot.hasData){
+                      List<Product> products = snapshot.data as List<Product>; 
+                      return ListView.builder(
+                    // padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      return ProductItem(
+                        product: products[index],
+                      );
+                    },
+                    scrollDirection: Axis.horizontal,
                   );
-                },
-                scrollDirection: Axis.horizontal,
+                    } 
+                  else {
+                      return Center(child: Text("No available products"),);
+                    }
+                  }
+                  else if(snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                  else{
+                    return Center(
+                      child: Text("something went wrong"),
+                    );
+                  }
+                  
+                }
               ),
             ),
             _buildHeader(
@@ -93,15 +127,31 @@ _buildHeader({
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: SizedBox(
                 height:300,
-                child: ListView.builder(
-                  // padding: EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: dummyProductList.length,
-                  itemBuilder: (context, index) {
-                    return ProductItem(
-                      product: dummyProductList[index],
+                child: StreamBuilder<Object>(
+                  stream: firestoreDatabase.newProductStream(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.active){
+                      if(snapshot.hasData){
+                        List<Product> products = snapshot.data as List<Product>;
+                        return ListView.builder(
+                      // padding: EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        return ProductItem(
+                          product: products[index],
+                        );
+                      },
+                      scrollDirection: Axis.horizontal,
                     );
-                  },
-                  scrollDirection: Axis.horizontal,
+                      }else {
+                        return Center(child: Text("No available products"));
+                      }
+                    }else if (snapshot.connectionState == ConnectionState.waiting){
+                      return Center(child: CircularProgressIndicator());
+                    }else {
+                      return Center(child: Text("Something went wrong"));
+                    }
+                  }
                 ),
               ),
             ),
@@ -114,3 +164,4 @@ _buildHeader({
       );
   }
 }
+

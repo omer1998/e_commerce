@@ -61,16 +61,26 @@ class _BottomNavBarState extends State<BottomNavBar> {
           StreamBuilder(
             stream: Provider.of<FirestoreController>(context).collectionStream(collectionPath: "products/", builder:((data, docId) => TestProduct.fromJson(data,docId)) ),
             builder:(context, snapshot) {
-              if(snapshot.hasData){
+              if(snapshot.connectionState == ConnectionState.done){
+                if(snapshot.hasData){
                 return Center(
                   child: ListView(
                     children: snapshot.data!
                     .map((product) => ListTile(title: Text(product.name), subtitle: Text(product.id))).toList()
                   )
                 );
+              } else {
+                return Center(
+                  child: Text("No available data"),
+                );
               }
-              else{
+              }
+              else if (snapshot.connectionState == ConnectionState.waiting){
                 return Center(child: CircularProgressIndicator(),);
+              }else {
+                return Center(child: Text(
+                  "Something went wrong"
+                ),);
               }
             }
             ),

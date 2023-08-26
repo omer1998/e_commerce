@@ -14,16 +14,19 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MultiProvider(providers: [
-    Provider<MyFirebaseAuth>(
-      create: (context) => MyFirebaseAuth(),
-    ),
-    ChangeNotifierProvider<AuthController>(
-      create: (context) => AuthController(
-          auth: Provider.of<MyFirebaseAuth>(context, listen: false)),
-    ),
-    Provider<FirestoreController>(create: (context) => FirestoreController())
-  ], child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      Provider<MyFirebaseAuth>(
+        create: (context) => MyFirebaseAuth(),
+      ),
+      ChangeNotifierProvider<AuthController>(
+        create: (context) => AuthController(
+            auth: Provider.of<MyFirebaseAuth>(context, listen: false)),
+      ),
+      Provider<FirestoreController>(create: (context) => FirestoreController()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

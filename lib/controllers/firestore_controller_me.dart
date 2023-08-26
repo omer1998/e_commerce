@@ -25,7 +25,7 @@ class FirestoreController{
     required String collectionPath,
     required T Function(Map<String, dynamic> data, String docId) builder
   }){
-    return firestore.collectionStream(collectionPath, (data, docId) => 
+    return firestore.collectionStream(collecPath: collectionPath, fromMap: (data, docId) => 
     builder(data, docId)
     );
   }
