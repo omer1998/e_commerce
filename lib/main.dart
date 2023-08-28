@@ -38,8 +38,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              titleTextStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                fontSize: 22
+              ),
+              elevation: 1,
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              actionsIconTheme: IconThemeData(color: Colors.black),
+              foregroundColor: Colors.black),
           primaryColor: Colors.red,
-          scaffoldBackgroundColor: const Color(0xffE5E5E5),
+          scaffoldBackgroundColor: Color.fromARGB(255, 238, 238, 238),
           inputDecorationTheme: InputDecorationTheme(
             labelStyle: Theme.of(context).textTheme.subtitle1,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),

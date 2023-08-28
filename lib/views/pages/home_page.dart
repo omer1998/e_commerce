@@ -79,7 +79,7 @@ _buildHeader({
               subtitle: "Super summer sale",
             ),
             SizedBox(
-               height: 300,
+               height: 330,
               child: StreamBuilder(
                 stream: firestoreDatabase.saleProductStream(), //FirebaseFirestore.instance.collection("products/").snapshots(),
                 builder: (context, snapshot) {
@@ -126,7 +126,7 @@ _buildHeader({
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: SizedBox(
-                height:300,
+                height:330,
                 child: StreamBuilder<Object>(
                   stream: firestoreDatabase.newProductStream(),
                   builder: (context, snapshot) {

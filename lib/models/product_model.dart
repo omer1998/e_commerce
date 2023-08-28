@@ -11,8 +11,10 @@ class Product {
   final String category;
   final int? discountValue;
   final double? rate;
+  final bool? isNew;
 
   Product({
+    required this.isNew,
     required this.id,
     required this.title,
     required this.price,
@@ -32,6 +34,7 @@ class Product {
       'category': category,
       'discountValue': discountValue,
       'rate': rate,
+      'isNew': isNew,
     };
   }
 
@@ -43,7 +46,8 @@ class Product {
       imgUrl: map['imgUrl'] as String,
       category: map['category'] as String,
       discountValue: map['discountValue'] != null ? map['discountValue'] as int : null,
-      rate: map['rate'] ,
+      rate: map['rate'],
+      isNew:  map['isNew'],
     );
   }
 
@@ -52,14 +56,14 @@ class Product {
   // factory Product.fromJson(String source) => Product.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
-List<Product> dummyProductList = [
-  Product(id: "3", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "4", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "5", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "6", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "7", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "8", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "9", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "10", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-  Product(id: "11", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
-];
+// List<Product> dummyProductList = [
+//   Product(id: "3", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "4", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "5", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "6", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "7", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "8", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "9", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "10", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+//   Product(id: "11", title: "T shirt", price: 300, imgUrl: AppAssets.productImageAsset, discountValue: 10),
+// ];

@@ -154,7 +154,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             curve: Curves.ease,
             duration: Duration(milliseconds: 200),
           ),
-          navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
+          navBarStyle: NavBarStyle.style3, // Choose the nav bar style with this property.
       ),
     );
   }

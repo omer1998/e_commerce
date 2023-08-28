@@ -19,7 +19,7 @@ class FirestoreDatabase extends Database {
     return _firestore.collectionStream(
         fromMap: (data, id) => Product.fromMap(data, id),
         collecPath: "products/",
-        query:(query) => query.where("rate", isGreaterThan: 0.0),
+        query:(query) => query.where("discountValue", isGreaterThan: 0.0),
         );
   }
   
