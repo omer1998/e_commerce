@@ -1,5 +1,6 @@
 import 'package:e_commerce/models/product_model.dart';
 import 'package:e_commerce/views/sharedWidgets/auth_btn_widget.dart';
+import 'package:e_commerce/views/sharedWidgets/custom_dropdown_form_field.dart';
 import 'package:e_commerce/views/sharedWidgets/main_button.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             Image.network(
               widget.product.imgUrl,
-              // fit: BoxFit.cover,
+              fit: BoxFit.cover,
               width: double.infinity,
               height: size.height * 0.5,
             ),
@@ -41,17 +42,21 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: CustomDropdownFormField(options: ['S',"M","L", "XL","XXL","XXXL"], hint: "Size", onChanged: (value)=>{})),
+                      Spacer(),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white
+                        ),
+                        child: IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border_outlined), color: Colors.grey[700],),
                       ),
-                      child: IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border_outlined), color: Colors.grey[700],),
-                    ),
+                    ],
                   ),
                   SizedBox(height: 10,),
                   Row(
@@ -86,7 +91,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ),
                     SizedBox(height: 15,),
-                    MainButton(onPressed: (){}, btnName: "Add to cart")
+                    MainButton(onPressed: (){}, btnName: "Add to cart", hasCircularBorder: true,)
                 ],
               ),
             )

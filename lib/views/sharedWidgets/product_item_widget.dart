@@ -25,23 +25,27 @@ class ProductItem extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  
                 ),
                 child: Image.network(
                   product.imgUrl,
                   width: 200,
                   height: 200,
                   fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {  //this very useful when the image still loading to enhance ui using circularprogressindicator, you can also use builder when there is error
+                  loadingBuilder: (context, child, loadingProgress) {
+                    //this very useful when the image still loading to enhance ui using circularprogressindicator, you can also use builder when there is error
                     if (loadingProgress == null) return child;
-                      return Center(
+                    return Container(
+                      width: 200,
+                      height: 200,
+                      child: Center(
                         child: CircularProgressIndicator(
                           value: loadingProgress.expectedTotalBytes != null
                               ? loadingProgress.cumulativeBytesLoaded /
                                   loadingProgress.expectedTotalBytes!
                               : null,
                         ),
-                      );
+                      ),
+                    );
                   },
                 ),
               ),
@@ -174,7 +178,11 @@ class ProductItem extends StatelessWidget {
                                   color: Colors.red))
                         ]),
                       )
-                    : Text("\$${product.price.toString()}", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),)),
+                    : Text(
+                        "\$${product.price.toString()}",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.w500),
+                      )),
           ],
         ),
       ),
